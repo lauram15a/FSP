@@ -139,6 +139,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d588fc75a8f7444abf29439ad15cd2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletHole: {fileID: 7138094364735074507, guid: ff65dc68f3a402d498ad45c4f73ea342, type: 3}
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &5069122890840596004
 MonoBehaviour:
   m_ObjectHideFlags: 0
