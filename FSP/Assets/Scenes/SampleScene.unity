@@ -196,6 +196,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a8894f8348bdd6458ca7cde81affc38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCamera: {fileID: 963194227}
+  cameraVerticalAngle: 0
+  walkSpeed: 0
+  runSpeed: 0
+  moveInput: {x: 0, y: 0, z: 0}
+  rotationInput: {x: 0, y: 0, z: 0}
+  rotationSensibility: 0
+  jumpHeight: 0
+  gravityScale: 0
 --- !u!54 &242396068
 Rigidbody:
   m_ObjectHideFlags: 0
