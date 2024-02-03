@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         moveInput = Vector3.zero;
         rotationInput = Vector3.zero;
         rotationSensibility = 30;
-        cameraVerticalAngle = 0;
+        //cameraVerticalAngle = 90;
     }
 
     // Update is called once per frame
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
         rotationInput.y = Input.GetAxis("Mouse Y") * rotationSensibility * Time.deltaTime;
 
         cameraVerticalAngle = cameraVerticalAngle + rotationInput.y;
-        cameraVerticalAngle = Mathf.Clamp(cameraVerticalAngle, -70, -70);
+        cameraVerticalAngle = Mathf.Clamp(cameraVerticalAngle, -70, 70);
 
         transform.Rotate(Vector3.up * rotationInput.x);
         playerCamera.transform.localRotation = Quaternion.Euler(-cameraVerticalAngle, 0, 0);
