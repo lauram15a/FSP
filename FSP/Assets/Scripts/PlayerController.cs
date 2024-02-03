@@ -6,19 +6,29 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private CharacterController characterController;
-    private Rigidbody rb;
-    
-    private float walkSpeed;
-    private float runSpeed;
-    private float jumpHeight;
+    //private Rigidbody rb;
+
+    [Header("Camera")]
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private float cameraVerticalAngle;
+
+    [Header ("Move")]    
+    [SerializeField] private float walkSpeed;
+    [SerializeField] private float runSpeed;
+    [SerializeField] private Vector3 moveInput;
+    [SerializeField] private Vector3 rotationInput;
+    [SerializeField] private float rotationSensibility;
+
+    [Header("Jump")]
+    [SerializeField] private float jumpHeight;
+    [SerializeField] private float gravityScale;
     //private float jumpForce;
-    private float gravityScale;
-    private Vector3 moveInput;
+
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
     }
 
     // Start is called before the first frame update
@@ -30,11 +40,15 @@ public class PlayerController : MonoBehaviour
         //jumpForce = 6f;
         gravityScale = -20f;
         moveInput = Vector3.zero;
+        rotationInput = Vector3.zero;
+        rotationSensibility = 30;
+        cameraVerticalAngle = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Look();
         Move();
     }
 
@@ -69,5 +83,17 @@ public class PlayerController : MonoBehaviour
         moveInput.y = Mathf.Sqrt(jumpHeight * -2f * gravityScale);
         //rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         //rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    private void Look()
+    {
+        rotationInput.x = Input.GetAxis("Mouse X") * rotationSensibility * Time.deltaTime;
+        rotationInput.y = Input.GetAxis("Mouse Y") * rotationSensibility * Time.deltaTime;
+
+        cameraVerticalAngle = cameraVerticalAngle + rotationInput.y;
+        cameraVerticalAngle = Mathf.Clamp(cameraVerticalAngle, -70, -70);
+
+        transform.Rotate(Vector3.up * rotationInput.x);
+        playerCamera.transform.localRotation = Quaternion.Euler(-cameraVerticalAngle, 0, 0);
     }
 }
