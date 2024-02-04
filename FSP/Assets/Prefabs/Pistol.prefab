@@ -145,12 +145,13 @@ MonoBehaviour:
     m_Bits: 4294967295
   weaponNozzle: {fileID: 8155316988548504922}
   initialPosition: {x: 0, y: 0, z: 0}
-  fireDistance: 0
-  fireRate: 0
-  recoilForce: 0
-  maxNumAmmo: 0
-  currentNumAmmo: 0
+  fireDistanc: 200
+  fireRat: 0.6
+  recoilForc: 4
   lastTimeShoot: 0
+  totalNumAmmo: 12
+  maxNumAmmo: 8
+  reloadTime: 1.5
   flashEffect: {fileID: 1415519397697696077, guid: bbc0237bce1c72249a5c0d4741e42298, type: 3}
 --- !u!114 &5069122890840596004
 MonoBehaviour:
