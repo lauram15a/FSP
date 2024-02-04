@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-    [Header("Game object")]
+    [Header("Game objects")]
     [SerializeField] private GameObject bulletHole;
+    private GameObject owner;
 
     [Header("Layers")]
     [SerializeField] private LayerMask hittableLayers;
 
-    [Header("Transform")]
+    [Header("Transforms")]
     [SerializeField] private Transform weaponNozzle;
     private Transform playerCameraTransform;
 
@@ -24,9 +25,9 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private float lastTimeShoot = Mathf.NegativeInfinity;
 
     [Header("Ammo parameters")]
-    [SerializeField] private int totalNumAmmo = 12;
+    [SerializeField] private int totalNumAmmo = 100;
     [SerializeField] private int maxNumAmmo = 10;
-    [SerializeField] public int currentNumAmmo { get; private set; }
+    [SerializeField] private int currentNumAmmo;
 
     [Header("Recharge parameters")]
     [SerializeField] private float reloadTime = 1.5f;
@@ -76,6 +77,7 @@ public class WeaponController : MonoBehaviour
         BulletHole();
 
         currentNumAmmo--;
+        Debug.Log("currentNumAmmo: " + currentNumAmmo);
         lastTimeShoot = Time.time;
     }
 
@@ -93,12 +95,16 @@ public class WeaponController : MonoBehaviour
 
     private void BulletHole()
     {
-        RaycastHit hit;
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(playerCameraTransform.position, playerCameraTransform.forward, fireDistance, hittableLayers);
 
-        if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out hit, fireDistance, hittableLayers))
+        foreach (RaycastHit hit in hits)
         {
-            GameObject bulletHoleClone = Instantiate(bulletHole, hit.point + hit.normal * 0.001f, Quaternion.LookRotation(hit.normal));
-            Destroy(bulletHoleClone, 5f);
+            if (hit.collider.gameObject != owner)
+            {
+                GameObject bulletHoleClone = Instantiate(bulletHole, hit.point + hit.normal * 0.001f, Quaternion.LookRotation(hit.normal));
+                Destroy(bulletHoleClone, 5f);
+            }
         }
     }
 
@@ -112,6 +118,10 @@ public class WeaponController : MonoBehaviour
             {
                 shoot = true;
             }
+        }
+        else
+        {
+            Debug.Log("Sin balas en la recámara.");
         }
 
         return shoot;
@@ -147,6 +157,8 @@ public class WeaponController : MonoBehaviour
         }
     }
 
+    #region Corrutina
+
     IEnumerator Reload()
     {
         Debug.Log("Recargando...");
@@ -154,4 +166,15 @@ public class WeaponController : MonoBehaviour
         AmmoReaload();
         Debug.Log("Recargada!");
     }
+
+    #endregion
+
+    #region Getters and setters
+
+    public void SetOwner(GameObject new_owner)
+    {
+        owner = new_owner;
+    }
+
+    #endregion
 }
