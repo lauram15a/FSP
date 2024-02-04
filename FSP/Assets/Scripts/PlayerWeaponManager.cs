@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerWeaponManager : MonoBehaviour
 {
     [Header("Weapons list")]
-    [SerializeField] List<WeaponController> startWeapons = new List<WeaponController>();
+    [SerializeField] List<WeaponController> startWeapons = new List<WeaponController>();    // la lista de las armas que tiene disponibles. Ahora por ejemplo es len 2
 
     [Header("Positions")]
     [SerializeField] private Transform weaponParentSocket;          // dónde vamos a colocar nuestras armas
@@ -45,21 +45,21 @@ public class PlayerWeaponManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            if (weaponSlots.Length > 1)
+            if (startWeapons.Count > 1)
             {
                 SwitchWeapon(1);
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            if (weaponSlots.Length > 2)
+            if (startWeapons.Count > 2)
             {
                 SwitchWeapon(2);
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            if (weaponSlots.Length > 3)
+            if (startWeapons.Count > 3)
             {
                 SwitchWeapon(3);
             }

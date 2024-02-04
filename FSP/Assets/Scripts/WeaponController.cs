@@ -27,14 +27,14 @@ public class WeaponController : MonoBehaviour
 
     [Header("Shoot parameters")]
     [SerializeField] private ShotType shotType;
-    [SerializeField] private float fireDistance = 200;
-    [SerializeField] private float fireRate = 0.6f;    // intervalo entre cada disparo
-    [SerializeField] private float recoilForce = 4f;
+    [SerializeField] public float fireDistance = 200;
+    [SerializeField] public float fireRate = 0.6f;    // intervalo entre cada disparo
+    [SerializeField] public float recoilForce = 4f;
     [SerializeField] private float lastTimeShoot = Mathf.NegativeInfinity;
 
     [Header("Ammo parameters")]
-    [SerializeField] private int totalNumAmmo = 100;
-    [SerializeField] private int maxNumAmmo = 10;
+    [SerializeField] public int totalNumAmmo = 100;
+    [SerializeField] public int maxNumAmmo = 10;
     [SerializeField] private int currentNumAmmo;
 
     [Header("Recharge parameters")]
