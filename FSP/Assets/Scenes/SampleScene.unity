@@ -419,6 +419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startWeapons:
   - {fileID: -5681728484383766743, guid: b2d8b0c68c0701d448dfe1be1f17d2d8, type: 3}
+  - {fileID: -5681728484383766743, guid: 809f7cb11469da04f8a830a6adccec59, type: 3}
   weaponParentSocket: {fileID: 1175905895}
   defaultWeaponPosition: {fileID: 761185609}
   aimingPosition: {fileID: 1757847687}
@@ -1475,7 +1476,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 40
   orthographic: 0
