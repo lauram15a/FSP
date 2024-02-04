@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 [Serializable]
 public class Int3Event : UnityEvent<int, int, int> { }
+public class StringEvent : UnityEvent<string> { }
 
 public class EventManager : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class EventManager : MonoBehaviour
     #endregion
 
     public Int3Event UpdateBulletsEvent = new Int3Event();
+    public StringEvent UpdateRechargingEvent = new StringEvent();
     public UnityEvent NewGunEvent = new UnityEvent();
 
 }

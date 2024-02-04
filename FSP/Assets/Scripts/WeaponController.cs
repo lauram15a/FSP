@@ -30,7 +30,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private int currentNumAmmo;
 
     [Header("Recharge parameters")]
-    [SerializeField] private float reloadTime = 1.5f;
+    [SerializeField] private float reloadTime = 2f;
 
     [Header("Sound and visual effects")]
     [SerializeField] private GameObject flashEffect;
@@ -120,10 +120,6 @@ public class WeaponController : MonoBehaviour
                 shoot = true;
             }
         }
-        else
-        {
-            Debug.Log("Sin balas en la recámara.");
-        }
 
         return shoot;
     }
@@ -138,7 +134,7 @@ public class WeaponController : MonoBehaviour
         }
         else
         {
-            Debug.Log("No te queda más munición");
+            EventManager.current.UpdateRechargingEvent.Invoke("No more ammo");
         }
 
         return reload;
@@ -162,11 +158,13 @@ public class WeaponController : MonoBehaviour
 
     IEnumerator Reload()
     {
-        Debug.Log("Recargando...");
+        EventManager.current.UpdateRechargingEvent.Invoke("Recharging...");
         yield return new WaitForSeconds(reloadTime);
         AmmoReaload();
         EventManager.current.UpdateBulletsEvent.Invoke(currentNumAmmo, maxNumAmmo, totalNumAmmo);
-        Debug.Log("Recargada!");
+        EventManager.current.UpdateRechargingEvent.Invoke("Recharged!");
+        yield return new WaitForSeconds(reloadTime);
+        EventManager.current.UpdateRechargingEvent.Invoke("");
     }
 
     #endregion

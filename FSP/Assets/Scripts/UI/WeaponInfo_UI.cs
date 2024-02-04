@@ -9,21 +9,30 @@ public class WeaponInfo_UI : MonoBehaviour
     [SerializeField] private TMP_Text textCurrentNumAmmo;
     [SerializeField] private TMP_Text textMaxNumAmmo;
     [SerializeField] private TMP_Text textTotalNumAmmo;
+    [SerializeField] private TMP_Text textRecharging;
 
     private void OnEnable()
     {
         EventManager.current.UpdateBulletsEvent.AddListener(UpdateInfoAmmo);
+        EventManager.current.UpdateRechargingEvent.AddListener(UpdateInfoRecharging);
     }
 
     private void OnDisable()
     {
         EventManager.current.UpdateBulletsEvent.RemoveListener(UpdateInfoAmmo);
+        EventManager.current.UpdateRechargingEvent.RemoveListener(UpdateInfoRecharging);
     }
 
     private void UpdateInfoAmmo(int newCurrentNumAmmo, int newMaxNumAmmo, int newTotalNumAmmo)
     {
         UpdateTextsAmmo(newCurrentNumAmmo, newMaxNumAmmo, newTotalNumAmmo);
         UpdateColorAmmo(newCurrentNumAmmo, newTotalNumAmmo);
+    }
+
+    private void UpdateInfoRecharging(string newTextRecharging)
+    {
+        UpdateTextRecharging(newTextRecharging);
+        UpdateColorRecharging(newTextRecharging);
     }
 
     private void UpdateTextsAmmo(int newCurrentNumAmmo, int newMaxNumAmmo, int newTotalNumAmmo)
@@ -41,7 +50,7 @@ public class WeaponInfo_UI : MonoBehaviour
         }
         else
         {
-            textCurrentNumAmmo.color = Color.white;
+            textCurrentNumAmmo.color = Color.black;
         }
 
         if (newTotalNumAmmo <= 0)
@@ -50,8 +59,28 @@ public class WeaponInfo_UI : MonoBehaviour
         }
         else
         {
-            textTotalNumAmmo.color = Color.white;
+            textTotalNumAmmo.color = Color.black;
         }
     }
 
+    private void UpdateTextRecharging(string newTextRecharging)
+    {
+        textRecharging.text = newTextRecharging;
+    }
+
+    private void UpdateColorRecharging(string newTextRecharging)
+    {
+        if (newTextRecharging == "Recharging...")
+        {
+            textRecharging.color = Color.gray;
+        }
+        else if (newTextRecharging == "No more ammo")
+        {
+            textRecharging.color = Color.red;
+        }
+        else
+        {
+            textRecharging.color = Color.green;
+        }
+    }
 }
