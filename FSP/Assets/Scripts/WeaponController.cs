@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-    [Header("Game object")]
+    [Header("Game objects")]
     [SerializeField] private GameObject bulletHole;
+    private GameObject owner;
 
     [Header("Layers")]
     [SerializeField] private LayerMask hittableLayers;
 
-    [Header("Transform")]
+    [Header("Transforms")]
     [SerializeField] private Transform weaponNozzle;
     private Transform playerCameraTransform;
 
@@ -24,12 +25,12 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private float lastTimeShoot = Mathf.NegativeInfinity;
 
     [Header("Ammo parameters")]
-    [SerializeField] private int totalNumAmmo = 12;
+    [SerializeField] private int totalNumAmmo = 100;
     [SerializeField] private int maxNumAmmo = 10;
-    [SerializeField] public int currentNumAmmo { get; private set; }
+    [SerializeField] private int currentNumAmmo;
 
     [Header("Recharge parameters")]
-    [SerializeField] private float reloadTime = 1.5f;
+    [SerializeField] private float reloadTime = 2f;
 
     [Header("Sound and visual effects")]
     [SerializeField] private GameObject flashEffect;
@@ -39,6 +40,7 @@ public class WeaponController : MonoBehaviour
     {
         initialPosition = transform.localPosition;
         currentNumAmmo = maxNumAmmo;
+        EventManager.current.UpdateBulletsEvent.Invoke(currentNumAmmo, maxNumAmmo, totalNumAmmo);
     }
 
     // Start is called before the first frame update
@@ -76,6 +78,7 @@ public class WeaponController : MonoBehaviour
         BulletHole();
 
         currentNumAmmo--;
+        EventManager.current.UpdateBulletsEvent.Invoke(currentNumAmmo, maxNumAmmo, totalNumAmmo);
         lastTimeShoot = Time.time;
     }
 
@@ -93,12 +96,16 @@ public class WeaponController : MonoBehaviour
 
     private void BulletHole()
     {
-        RaycastHit hit;
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(playerCameraTransform.position, playerCameraTransform.forward, fireDistance, hittableLayers);
 
-        if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out hit, fireDistance, hittableLayers))
+        foreach (RaycastHit hit in hits)
         {
-            GameObject bulletHoleClone = Instantiate(bulletHole, hit.point + hit.normal * 0.001f, Quaternion.LookRotation(hit.normal));
-            Destroy(bulletHoleClone, 5f);
+            if (hit.collider.gameObject != owner)
+            {
+                GameObject bulletHoleClone = Instantiate(bulletHole, hit.point + hit.normal * 0.001f, Quaternion.LookRotation(hit.normal));
+                Destroy(bulletHoleClone, 5f);
+            }
         }
     }
 
@@ -127,7 +134,7 @@ public class WeaponController : MonoBehaviour
         }
         else
         {
-            Debug.Log("No te queda más munición");
+            EventManager.current.UpdateRechargingEvent.Invoke("No more ammo");
         }
 
         return reload;
@@ -147,11 +154,42 @@ public class WeaponController : MonoBehaviour
         }
     }
 
+    #region Corrutina
+
     IEnumerator Reload()
     {
-        Debug.Log("Recargando...");
+        EventManager.current.UpdateRechargingEvent.Invoke("Recharging...");
         yield return new WaitForSeconds(reloadTime);
         AmmoReaload();
-        Debug.Log("Recargada!");
+        EventManager.current.UpdateBulletsEvent.Invoke(currentNumAmmo, maxNumAmmo, totalNumAmmo);
+        EventManager.current.UpdateRechargingEvent.Invoke("Recharged!");
+        yield return new WaitForSeconds(reloadTime);
+        EventManager.current.UpdateRechargingEvent.Invoke("");
     }
+
+    #endregion
+
+    #region Getters and setters
+
+    public void SetOwner(GameObject new_owner)
+    {
+        owner = new_owner;
+    }
+
+    public int GetCurrentNumAmmo()
+    {
+        return currentNumAmmo;
+    }
+
+    public int GetMaxNumAmmo()
+    {
+        return maxNumAmmo;
+    }
+
+    public int GetTotalNumAmmo()
+    {
+        return totalNumAmmo;
+    }
+
+    #endregion
 }
