@@ -11,7 +11,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private LayerMask hittableLayers;
 
     [Header("Transform")]
-    [SerializeField] private Transform weaponNozzle;    
+    [SerializeField] private Transform weaponNozzle;
     private Transform playerCameraTransform;
 
     [Header("Positions")]
@@ -21,21 +21,30 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private float fireDistance = 200;
     [SerializeField] private float fireRate = 0.6f;    // intervalo entre cada disparo
     [SerializeField] private float recoilForce = 4f;
-    [SerializeField] private int maxNumAmmo = 8;
-    [SerializeField] public int currentNumAmmo { get; private set; }
     [SerializeField] private float lastTimeShoot = Mathf.NegativeInfinity;
+
+    [Header("Ammo parameters")]
+    [SerializeField] private int totalNumAmmo = 12;
+    [SerializeField] private int maxNumAmmo = 10;
+    [SerializeField] public int currentNumAmmo { get; private set; }
+
+    [Header("Recharge parameters")]
+    [SerializeField] private float reloadTime = 1.5f;
 
     [Header("Sound and visual effects")]
     [SerializeField] private GameObject flashEffect;
 
 
+    private void Awake()
+    {
+        initialPosition = transform.localPosition;
+        currentNumAmmo = maxNumAmmo;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        initialPosition = transform.localPosition;
         playerCameraTransform = GameObject.FindGameObjectWithTag("PlayerCamera").transform;
-
-        currentNumAmmo = 8;
     }
 
     // Update is called once per frame
@@ -46,6 +55,14 @@ public class WeaponController : MonoBehaviour
             if (CanShoot())
             {
                 HandleShoot();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (CanReload())
+            {
+                StartCoroutine(Reload());
             }
         }
 
@@ -98,5 +115,43 @@ public class WeaponController : MonoBehaviour
         }
 
         return shoot;
+    }
+
+    private bool CanReload()
+    {
+        bool reload = false;
+
+        if (totalNumAmmo > 0)
+        {
+            reload = true;
+        }
+        else
+        {
+            Debug.Log("No te queda más munición");
+        }
+
+        return reload;
+    }
+
+    private void AmmoReaload()
+    {
+        if (totalNumAmmo >= maxNumAmmo)
+        {
+            totalNumAmmo = totalNumAmmo - (maxNumAmmo - currentNumAmmo);
+            currentNumAmmo = maxNumAmmo;
+        }
+        else
+        {
+            currentNumAmmo = totalNumAmmo;
+            totalNumAmmo = totalNumAmmo - currentNumAmmo;
+        }
+    }
+
+    IEnumerator Reload()
+    {
+        Debug.Log("Recargando...");
+        yield return new WaitForSeconds(reloadTime);
+        AmmoReaload();
+        Debug.Log("Recargada!");
     }
 }
