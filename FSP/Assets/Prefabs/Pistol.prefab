@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8155316988548504922}
   m_Layer: 6
-  m_Name: Boquilla
+  m_Name: Nozzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,7 +143,14 @@ MonoBehaviour:
   hittableLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  weaponMuzzle: {fileID: 8155316988548504922}
+  weaponNozzle: {fileID: 8155316988548504922}
+  initialPosition: {x: 0, y: 0, z: 0}
+  fireDistance: 0
+  fireRate: 0
+  recoilForce: 0
+  maxNumAmmo: 0
+  currentNumAmmo: 0
+  lastTimeShoot: 0
   flashEffect: {fileID: 1415519397697696077, guid: bbc0237bce1c72249a5c0d4741e42298, type: 3}
 --- !u!114 &5069122890840596004
 MonoBehaviour:
