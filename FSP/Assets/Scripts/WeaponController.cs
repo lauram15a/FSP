@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum ShotType
+{
+    Manual,
+    Automatic
+}
+
 public class WeaponController : MonoBehaviour
 {
     [Header("Game objects")]
@@ -19,14 +26,15 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private Vector3 initialPosition;
 
     [Header("Shoot parameters")]
-    [SerializeField] private float fireDistance = 200;
-    [SerializeField] private float fireRate = 0.6f;    // intervalo entre cada disparo
-    [SerializeField] private float recoilForce = 4f;
+    [SerializeField] private ShotType shotType;
+    [SerializeField] public float fireDistance = 200;
+    [SerializeField] public float fireRate = 0.6f;    // intervalo entre cada disparo
+    [SerializeField] public float recoilForce = 4f;
     [SerializeField] private float lastTimeShoot = Mathf.NegativeInfinity;
 
     [Header("Ammo parameters")]
-    [SerializeField] private int totalNumAmmo = 100;
-    [SerializeField] private int maxNumAmmo = 10;
+    [SerializeField] public int totalNumAmmo = 100;
+    [SerializeField] public int maxNumAmmo = 10;
     [SerializeField] private int currentNumAmmo;
 
     [Header("Recharge parameters")]
@@ -52,11 +60,24 @@ public class WeaponController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (shotType == ShotType.Manual)
         {
-            if (CanShoot())
+            if (Input.GetButtonDown("Fire1"))
             {
-                HandleShoot();
+                if (CanShoot())
+                {
+                    HandleShoot();
+                }
+            }
+        }
+        else if (shotType == ShotType.Automatic)
+        {
+            if (Input.GetButton("Fire1"))
+            {
+                if (CanShoot())
+                {
+                    HandleShoot();
+                }
             }
         }
 

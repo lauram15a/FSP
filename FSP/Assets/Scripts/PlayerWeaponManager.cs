@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerWeaponManager : MonoBehaviour
 {
     [Header("Weapons list")]
-    [SerializeField] List<WeaponController> startWeapons = new List<WeaponController>();
+    [SerializeField] List<WeaponController> startWeapons = new List<WeaponController>();    // la lista de las armas que tiene disponibles. Ahora por ejemplo es len 2
 
     [Header("Positions")]
     [SerializeField] private Transform weaponParentSocket;          // dónde vamos a colocar nuestras armas
@@ -15,7 +15,8 @@ public class PlayerWeaponManager : MonoBehaviour
     [Header("Weapons array")]
     [SerializeField] private int activeWeaponIndex;                 // cuál es el arma activa del jugador
     [SerializeField] private WeaponController[] weaponSlots = new WeaponController[4];   // sabemos cuántas armas max va a tener el player. Va a ser fijo.
- 
+    [SerializeField] private WeaponController currentWeapon;
+
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,8 @@ public class PlayerWeaponManager : MonoBehaviour
         {
             AddWeapon(startingWeapon);
         }
+
+        currentWeapon = weaponSlots[0];
     }
 
     // Update is called once per frame
@@ -39,6 +42,27 @@ public class PlayerWeaponManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             SwitchWeapon(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            if (startWeapons.Count > 1)
+            {
+                SwitchWeapon(1);
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            if (startWeapons.Count > 2)
+            {
+                SwitchWeapon(2);
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            if (startWeapons.Count > 3)
+            {
+                SwitchWeapon(3);
+            }
         }
     }
 
@@ -64,7 +88,9 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         if ((p_weaponIndex != activeWeaponIndex) && (p_weaponIndex >= 0))
         {
-            WeaponController currentWeapon = weaponSlots[p_weaponIndex];
+            currentWeapon.gameObject.SetActive(false);
+
+            currentWeapon = weaponSlots[p_weaponIndex];
 
             currentWeapon.gameObject.SetActive(true);
             activeWeaponIndex = p_weaponIndex;
