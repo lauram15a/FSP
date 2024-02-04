@@ -31,16 +31,17 @@ public class PlayerWeaponManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) 
+        ChooseWeapon();
+    }
+
+    private void ChooseWeapon()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             SwitchWeapon(0);
         }
     }
 
-    /// <summary>
-    /// Add weapon in the weapons list.
-    /// </summary>
-    /// <param name="weapon"></param>
     private void AddWeapon(WeaponController p_weaponPrefab)
     {
         weaponParentSocket.position = defaultWeaponPosition.position;
@@ -59,16 +60,17 @@ public class PlayerWeaponManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Switch tha weapon that the player is using
-    /// </summary>
-    /// <param name="p_weaponIndex"></param>
     private void SwitchWeapon(int p_weaponIndex)
     {
         if ((p_weaponIndex != activeWeaponIndex) && (p_weaponIndex >= 0))
         {
-            weaponSlots[p_weaponIndex].gameObject.SetActive(true);
+            WeaponController currentWeapon = weaponSlots[p_weaponIndex];
+
+            currentWeapon.gameObject.SetActive(true);
             activeWeaponIndex = p_weaponIndex;
+
+            EventManager.current.NewGunEvent.Invoke();
+            EventManager.current.UpdateBulletsEvent.Invoke(currentWeapon.GetCurrentNumAmmo(), currentWeapon.GetMaxNumAmmo(), currentWeapon.GetTotalNumAmmo());
         }
     }
 }

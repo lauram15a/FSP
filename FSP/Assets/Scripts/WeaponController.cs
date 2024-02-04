@@ -40,6 +40,7 @@ public class WeaponController : MonoBehaviour
     {
         initialPosition = transform.localPosition;
         currentNumAmmo = maxNumAmmo;
+        EventManager.current.UpdateBulletsEvent.Invoke(currentNumAmmo, maxNumAmmo, totalNumAmmo);
     }
 
     // Start is called before the first frame update
@@ -77,7 +78,7 @@ public class WeaponController : MonoBehaviour
         BulletHole();
 
         currentNumAmmo--;
-        Debug.Log("currentNumAmmo: " + currentNumAmmo);
+        EventManager.current.UpdateBulletsEvent.Invoke(currentNumAmmo, maxNumAmmo, totalNumAmmo);
         lastTimeShoot = Time.time;
     }
 
@@ -164,6 +165,7 @@ public class WeaponController : MonoBehaviour
         Debug.Log("Recargando...");
         yield return new WaitForSeconds(reloadTime);
         AmmoReaload();
+        EventManager.current.UpdateBulletsEvent.Invoke(currentNumAmmo, maxNumAmmo, totalNumAmmo);
         Debug.Log("Recargada!");
     }
 
@@ -174,6 +176,21 @@ public class WeaponController : MonoBehaviour
     public void SetOwner(GameObject new_owner)
     {
         owner = new_owner;
+    }
+
+    public int GetCurrentNumAmmo()
+    {
+        return currentNumAmmo;
+    }
+
+    public int GetMaxNumAmmo()
+    {
+        return maxNumAmmo;
+    }
+
+    public int GetTotalNumAmmo()
+    {
+        return totalNumAmmo;
     }
 
     #endregion
