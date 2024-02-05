@@ -270,7 +270,7 @@ MonoBehaviour:
   UpdateBulletsEvent:
     m_PersistentCalls:
       m_Calls: []
-  NewGunEvent:
+  NewWeaponEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &38941587
@@ -417,9 +417,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4509731a990df5648acbbff99bbb2462, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startWeapons:
-  - {fileID: -5681728484383766743, guid: b2d8b0c68c0701d448dfe1be1f17d2d8, type: 3}
-  - {fileID: -5681728484383766743, guid: 809f7cb11469da04f8a830a6adccec59, type: 3}
+  weaponsList:
+  - {fileID: 7939634358092277918, guid: b2d8b0c68c0701d448dfe1be1f17d2d8, type: 3}
+  - {fileID: 3052895940928103143, guid: 809f7cb11469da04f8a830a6adccec59, type: 3}
+  - {fileID: 3052895940928103143, guid: 76d39a1ee3ef890448fb712e5c8cbb04, type: 3}
   weaponParentSocket: {fileID: 1175905895}
   defaultWeaponPosition: {fileID: 761185609}
   aimingPosition: {fileID: 1757847687}
@@ -864,7 +865,7 @@ Transform:
   m_GameObject: {fileID: 881016329}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6, y: 5.6248, z: 35.58}
+  m_LocalPosition: {x: -6, y: -317, z: 35.58}
   m_LocalScale: {x: 5, y: 11.2495, z: 4.6905}
   m_ConstrainProportionsScale: 0
   m_Children: []

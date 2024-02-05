@@ -8,7 +8,7 @@ public class HUDManager : MonoBehaviour
 
     private void Start()
     {
-        EventManager.current.NewGunEvent.AddListener(ShowWeaponInfo);
+        EventManager.current.NewWeaponEvent.AddListener(ShowWeaponInfo);
     }
 
     public void ShowWeaponInfo()

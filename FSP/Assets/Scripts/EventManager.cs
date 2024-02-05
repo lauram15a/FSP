@@ -10,8 +10,6 @@ public class StringEvent : UnityEvent<string> { }
 
 public class EventManager : MonoBehaviour
 {
-    #region Singleton
-
     public static EventManager current;
 
     private void Awake()
@@ -26,10 +24,8 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    #endregion
-
     public Int3Event UpdateBulletsEvent = new Int3Event();
     public StringEvent UpdateRechargingEvent = new StringEvent();
-    public UnityEvent NewGunEvent = new UnityEvent();
+    public UnityEvent NewWeaponEvent = new UnityEvent();
 
 }

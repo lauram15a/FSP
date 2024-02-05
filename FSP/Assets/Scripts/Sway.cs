@@ -6,6 +6,7 @@ public class Sway : MonoBehaviour
 {
     private Quaternion originLocalRotation;
 
+    #region Start() and Update
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +18,8 @@ public class Sway : MonoBehaviour
     {
         UpdateSway();
     }
+
+    #endregion
 
     private void UpdateSway()
     {
