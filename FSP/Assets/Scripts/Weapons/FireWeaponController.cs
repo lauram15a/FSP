@@ -9,21 +9,10 @@ public enum ShotType
     Automatic
 }
 
-public class WeaponController : MonoBehaviour
+public class FireWeaponController : WeaponController
 {
     [Header("Game objects")]
     [SerializeField] private GameObject bulletHole;
-    private GameObject owner;
-
-    [Header("Layers")]
-    [SerializeField] private LayerMask hittableLayers;
-
-    [Header("Transforms")]
-    [SerializeField] private Transform weaponNozzle;
-    private Transform playerCameraTransform;
-
-    [Header("Positions")]
-    [SerializeField] private Vector3 initialPosition;
 
     [Header("Shoot parameters")]
     [SerializeField] private ShotType shotType;
@@ -43,10 +32,10 @@ public class WeaponController : MonoBehaviour
     [Header("Sound and visual effects")]
     [SerializeField] private GameObject flashEffect;
 
-
+    #region Awake(), Start() and Update
     private void Awake()
     {
-        initialPosition = transform.localPosition;
+        base.Awake();
         currentNumAmmo = maxNumAmmo;
         EventManager.current.UpdateBulletsEvent.Invoke(currentNumAmmo, maxNumAmmo, totalNumAmmo);
     }
@@ -59,6 +48,16 @@ public class WeaponController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        Shoot();
+        Reload();
+
+        transform.localPosition = Vector3.Lerp(transform.localPosition, initialPosition, Time.deltaTime * 5f);
+    }
+
+    #endregion
+
+    private void Shoot()
     {
         if (shotType == ShotType.Manual)
         {
@@ -80,16 +79,6 @@ public class WeaponController : MonoBehaviour
                 }
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (CanReload())
-            {
-                StartCoroutine(Reload());
-            }
-        }
-
-        transform.localPosition = Vector3.Lerp(transform.localPosition, initialPosition, Time.deltaTime * 5f);
     }
 
     private void HandleShoot()
@@ -161,7 +150,18 @@ public class WeaponController : MonoBehaviour
         return reload;
     }
 
-    private void AmmoReaload()
+    private void Reload()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (CanReload())
+            {
+                StartCoroutine(HandleReload());
+            }
+        }
+    }
+
+    private void AmmoReload()
     {
         if (totalNumAmmo >= maxNumAmmo)
         {
@@ -177,25 +177,22 @@ public class WeaponController : MonoBehaviour
 
     #region Corrutina
 
-    IEnumerator Reload()
+    IEnumerator HandleReload()
     {
         EventManager.current.UpdateRechargingEvent.Invoke("Recharging...");
         yield return new WaitForSeconds(reloadTime);
-        AmmoReaload();
+        
+        AmmoReload();
         EventManager.current.UpdateBulletsEvent.Invoke(currentNumAmmo, maxNumAmmo, totalNumAmmo);
         EventManager.current.UpdateRechargingEvent.Invoke("Recharged!");
         yield return new WaitForSeconds(reloadTime);
+        
         EventManager.current.UpdateRechargingEvent.Invoke("");
     }
 
     #endregion
 
     #region Getters and setters
-
-    public void SetOwner(GameObject new_owner)
-    {
-        owner = new_owner;
-    }
 
     public int GetCurrentNumAmmo()
     {
@@ -213,4 +210,5 @@ public class WeaponController : MonoBehaviour
     }
 
     #endregion
+
 }

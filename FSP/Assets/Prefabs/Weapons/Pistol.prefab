@@ -112,7 +112,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7f0584d4fad82a24b87fb4e2ee86d0f3, type: 3}
       insertIndex: 1
-      addedObject: {fileID: -5681728484383766743}
+      addedObject: {fileID: 7939634358092277918}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7f0584d4fad82a24b87fb4e2ee86d0f3, type: 3}
       insertIndex: 2
       addedObject: {fileID: 5069122890840596004}
@@ -127,7 +127,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7f0584d4fad82a24b87fb4e2ee86d0f3, type: 3}
   m_PrefabInstance: {fileID: 6323228107766991858}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-5681728484383766743
+--- !u!114 &7939634358092277918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,22 +136,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 6557794831898949283}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d588fc75a8f7444abf29439ad15cd2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 63502038a4930af4e9c86cc20c5cc0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletHole: {fileID: 7138094364735074507, guid: ff65dc68f3a402d498ad45c4f73ea342, type: 3}
   hittableLayers:
     serializedVersion: 2
     m_Bits: 4294967295
   weaponNozzle: {fileID: 8155316988548504922}
   initialPosition: {x: 0, y: 0, z: 0}
-  fireDistanc: 200
-  fireRat: 0.6
-  recoilForc: 4
-  lastTimeShoot: 0
-  totalNumAmmo: 12
-  maxNumAmmo: 8
-  reloadTime: 1.5
+  bulletHole: {fileID: 5599438345329683976, guid: 7bb6573296e48564fb6489df0704fa2a, type: 3}
+  shotType: 0
+  fireDistance: 200
+  fireRate: 0.6
+  recoilForce: 4
+  lastTimeShoot: -Infinity
+  totalNumAmmo: 100
+  maxNumAmmo: 10
+  currentNumAmmo: 0
+  reloadTime: 2
   flashEffect: {fileID: 1415519397697696077, guid: bbc0237bce1c72249a5c0d4741e42298, type: 3}
 --- !u!114 &5069122890840596004
 MonoBehaviour:

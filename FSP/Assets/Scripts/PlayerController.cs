@@ -22,13 +22,12 @@ public class PlayerController : MonoBehaviour
     [Header("Jump")]
     [SerializeField] private float jumpHeight;
     [SerializeField] private float gravityScale;
-    //private float jumpForce;
 
+    #region Awake(), Start() and Update
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
-        //rb = GetComponent<Rigidbody>();
     }
 
     // Start is called before the first frame update
@@ -37,12 +36,10 @@ public class PlayerController : MonoBehaviour
         walkSpeed = 5;
         runSpeed = 10;
         jumpHeight = 1.9f;
-        //jumpForce = 6f;
         gravityScale = -20f;
         moveInput = Vector3.zero;
         rotationInput = Vector3.zero;
         rotationSensibility = 30;
-        //cameraVerticalAngle = 90;
     }
 
     // Update is called once per frame
@@ -51,6 +48,8 @@ public class PlayerController : MonoBehaviour
         Look();
         Move();
     }
+
+    #endregion
 
     private void Move()
     {
@@ -81,8 +80,6 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         moveInput.y = Mathf.Sqrt(jumpHeight * -2f * gravityScale);
-        //rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-        //rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     private void Look()
