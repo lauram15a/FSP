@@ -26,13 +26,13 @@ public class WeaponController : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         playerCameraTransform = GameObject.FindGameObjectWithTag("PlayerCamera").transform;
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         transform.localPosition = Vector3.Lerp(transform.localPosition, initialPosition, Time.deltaTime * 5f);
     }

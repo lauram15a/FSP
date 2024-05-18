@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.UI.GridLayoutGroup;
 
 public class BladedWeaponController : WeaponController
 {
@@ -9,22 +8,32 @@ public class BladedWeaponController : WeaponController
     [SerializeField] private GameObject stabbingHole;
 
     [Header("Stabbing parameters")]
-    [SerializeField] private float stabbingDistance = 0;
+    [SerializeField] private float stabbingDistance = 2;
 
     #region Awake(), Start() and Update
     // Start is called before the first frame update
     void Start()
     {
-        
+        base.Start(); // Llama al Start() del padre
+        EventManager.current.UpdateBulletsEvent.Invoke(0, 0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        base.Update();
+        Attack();
     }
 
     #endregion
+
+    private void Attack()
+    {
+        if (Input.GetButtonDown("Fire1")) // Botón izquierdo del ratón por defecto
+        {
+            StabbingHole();
+        }
+    }
 
     private void StabbingHole()
     {
@@ -35,8 +44,8 @@ public class BladedWeaponController : WeaponController
         {
             if (hit.collider.gameObject != owner)
             {
-                GameObject bulletHoleClone = Instantiate(stabbingHole, hit.point + hit.normal * 0.001f, Quaternion.LookRotation(hit.normal));
-                Destroy(bulletHoleClone, 5f);
+                GameObject stabbingHoleClone = Instantiate(stabbingHole, hit.point + hit.normal * 0.001f, Quaternion.LookRotation(hit.normal));
+                Destroy(stabbingHoleClone, 5f);
             }
         }
     }
