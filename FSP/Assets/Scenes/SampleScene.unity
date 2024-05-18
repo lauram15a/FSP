@@ -421,6 +421,7 @@ MonoBehaviour:
   - {fileID: 7939634358092277918, guid: b2d8b0c68c0701d448dfe1be1f17d2d8, type: 3}
   - {fileID: 3052895940928103143, guid: 809f7cb11469da04f8a830a6adccec59, type: 3}
   - {fileID: 3052895940928103143, guid: 76d39a1ee3ef890448fb712e5c8cbb04, type: 3}
+  - {fileID: 1281380033421736885, guid: c0eb9fedcff56c14b96a38226a82c1aa, type: 3}
   weaponParentSocket: {fileID: 1175905895}
   defaultWeaponPosition: {fileID: 761185609}
   aimingPosition: {fileID: 1757847687}
